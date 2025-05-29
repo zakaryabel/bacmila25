@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>استمارة معلومات</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+      direction: rtl;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    .header img.left-logo {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 60px;
+    }
+    .header img.right-logo {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 60px;
+    }
+    .sub-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    #confirmation {
+      display: none;
+      text-align: center;
+    }
+    .print-area {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+    <div class="header">
+    <img src="images.jfif" alt="logo" class="right-logo">
+    <img src="images.jfif" alt="logo" class="left-logo">
+    <div>الجمهورية الجزائرية الديمقراطية الشعبية</div>
+    <div>وزارة التربية الوطنية</div>
+    <div>الديوان الوطني للامتحانات والمسابقات</div>
+    <br>
+    <div style="font-weight:bold;">مركز تصحيح شهادة البكالوريا دورة جوان 2025</div>
+    <div class="sub-header">
+      <span>فرع : أم البواقي</span>
+      <span>ثانوية: سليمان بن طوبال &nbsp;&nbsp;&nbsp; ولاية: ميلة</span>
+    </div>
+  </div>
+
+  <h2>استمارة معلومات خاصة بموظفي مركز البكالوريا - 2025</h2>
+  <form id="infoForm">
+    <label>اللقب (بالعربية) *</label>
+    <input type="text" name="lastName" required>
+
+    <label>الاسم (بالعربية) *</label>
+    <input type="text" name="firstName" required>
+
+    <label>اللقب و الاسم بالحروف اللاتينية (طبقا للصك البريدي) *</label>
+    <input type="text" name="latinName" required>
+
+    <label>تاريخ الازدياد *</label>
+    <input type="date" name="birthDate" required>
+
+    <label>مكان الازدياد *</label>
+    <input type="text" name="birthPlace" required>
+
+    <label>الرتبة *</label>
+    <input type="text" name="rank" required>
+
+    <label>مؤسسة العمل *</label>
+    <input type="text" name="institution" required>
+
+    <label>الوظيفة في المركز *</label>
+    <input type="text" name="function" required>
+
+    <label>المادة</label>
+    <input type="text" name="subject">
+
+    <label>رقم الحساب البريدي الجاري *</label>
+    <input type="text" name="postalAccountNumber" required>
+
+    <label>المفتاح *</label>
+    <input type="text" name="postalKey" required>
+
+    <button type="submit">إرسال</button>
+  </form>
+
+  <div id="confirmation">
+    <h3>✅ تم إرسال المعلومات بنجاح.</h3>
+    <button onclick="editForm()">تعديل المعلومات</button>
+    <button onclick="printForm()">طباعة الاستمارة</button>
+  </div>
+
+  <div class="print-area" id="printArea"></div>
+
+  <script>
+    const form = document.getElementById('infoForm');
+    const confirmation = document.getElementById('confirmation');
+    const printArea = document.getElementById('printArea');
+    let lastSubmittedData = {};
+
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const values = Object.fromEntries(formData.entries());
+      lastSubmittedData = values;
+
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbwA-e-DWBvQyricSfxlojEQDgvA2hXu_RcnOxtCrW-BO1B8ThLliIfNJMNUpJZSdOt1Yw/exec';
+
+      try {
+        const response = await fetch(scriptURL, {
+          method: 'POST',
+          body: new URLSearchParams(values),
+        });
+        if (response.ok) {
+          form.style.display = 'none';
+          confirmation.style.display = 'block';
+        } else {
+          alert('❌ حدث خطأ أثناء الإرسال.');
+        }
+      } catch (error) {
+        alert('❌ فشل الاتصال بالخادم.');
+        console.error(error);
+      }
+    });
+
+    function editForm() {
+      confirmation.style.display = 'none';
+      form.style.display = 'block';
+    }
+
+    function printForm() {
+      printArea.innerHTML = `
+        <div style="text-align:right; direction:rtl; font-family:Arial;">
+          <h3>استمارة معلومات</h3>
+          <p><strong>اللقب:</strong> ${lastSubmittedData.lastName}</p>
+          <p><strong>الاسم:</strong> ${lastSubmittedData.firstName}</p>
+          <p><strong>اللقب والاسم باللاتينية:</strong> ${lastSubmittedData.latinName}</p>
+          <p><strong>تاريخ الازدياد:</strong> ${lastSubmittedData.birthDate}</p>
+          <p><strong>مكان الازدياد:</strong> ${lastSubmittedData.birthPlace}</p>
+          <p><strong>الرتبة:</strong> ${lastSubmittedData.rank}</p>
+          <p><strong>مؤسسة العمل:</strong> ${lastSubmittedData.institution}</p>
+          <p><strong>الوظيفة في المركز:</strong> ${lastSubmittedData.function}</p>
+          <p><strong>المادة:</strong> ${lastSubmittedData.subject || '-'}</p>
+          <p><strong>رقم الحساب البريدي:</strong> ${lastSubmittedData.postalAccountNumber}</p>
+          <p><strong>المفتاح:</strong> ${lastSubmittedData.postalKey}</p>
+        </div>`;
+
+      const printContent = printArea.innerHTML;
+      const originalContent = document.body.innerHTML;
+      document.body.innerHTML = printContent;
+      window.print();
+      document.body.innerHTML = originalContent;
+      location.reload();
+    }
+  </script>
+</body>
+</html>
