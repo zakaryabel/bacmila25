@@ -11,19 +11,14 @@
       margin: auto;
       padding: 20px;
     }
-    .header {
+    h2, h3, h4 {
       text-align: center;
-      position: relative;
     }
     .sub-header {
       display: flex;
       justify-content: space-between;
-      font-weight: bold;
       margin-top: 10px;
-    }
-    h2 {
-      text-align: center;
-      margin: 30px 0;
+      font-weight: bold;
     }
     label {
       display: block;
@@ -35,79 +30,83 @@
       margin-top: 5px;
     }
     button {
-      margin-top: 20px;
       width: 100%;
       padding: 10px;
+      margin-top: 20px;
       background-color: #4CAF50;
       color: white;
       border: none;
-      font-size: 16px;
       cursor: pointer;
     }
-    .form-table {
+    table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 20px;
+      margin-top: 30px;
     }
-    .form-table td {
+    td {
       border: 1px solid #000;
       padding: 10px;
-      height: 40px;
     }
-    .form-table .label {
+    td.label {
       width: 30%;
-      background: #f0f0f0;
       font-weight: bold;
+      background-color: #eee;
     }
   </style>
 </head>
 <body>
 
-<div class="header">
-  <h3>الجمهورية الجزائرية الديمقراطية الشعبية</h3>
-  <h4>وزارة التربية الوطنية</h4>
-  <h4>الديوان الوطني للامتحانات والمسابقات</h4>
-  <br>
-  <h3>مركز تصحيح شهادة البكالوريا دورة جوان 2025</h3>
-  <div class="sub-header">
-    <span>فرع : أم البواقي</span>
-    <span>ثانوية: سليمان بن طوبال - ولاية: ميلة</span>
-  </div>
+<h3>الجمهورية الجزائرية الديمقراطية الشعبية</h3>
+<h4>وزارة التربية الوطنية</h4>
+<h4>الديوان الوطني للامتحانات والمسابقات</h4>
+<h3>مركز تصحيح شهادة البكالوريا دورة جوان 2025</h3>
+
+<div class="sub-header">
+  <span>فرع : أم البواقي</span>
+  <span>ثانوية: سليمان بن طوبال - ولاية: ميلة</span>
 </div>
 
 <h2>استمارة معلومات خاصة بموظفي مركز البكالوريا - 2025</h2>
 
 <form id="infoForm">
   <label>اللقب *</label>
-  <input type="text" name="lastName" required pattern="^[\\u0600-\\u06FF\\s]+$">
+  <input type="text" name="lastName" required pattern="[ء-ي\\s]+">
+
   <label>الاسم *</label>
-  <input type="text" name="firstName" required pattern="^[\\u0600-\\u06FF\\s]+$">
+  <input type="text" name="firstName" required pattern="[ء-ي\\s]+">
+
   <label>اللقب والاسم باللاتينية *</label>
-  <input type="text" name="latinName" required pattern="^[A-Za-zÀ-ÿ\\s]+$">
-  <label>تاريخ الازدياد (يوم/شهر/سنة) *</label>
+  <input type="text" name="latinName" required pattern="[A-Za-zÀ-ÿ\\s]+">
+
+  <label>تاريخ الازدياد *</label>
   <div style="display:flex; gap:10px;">
     <select name="birthDay" required>
       <option value="">يوم</option>
-      <!-- أيام -->
-      ${[...Array(31).keys()].map(i => `<option value="${String(i+1).padStart(2,'0')}">${String(i+1).padStart(2,'0')}</option>`).join('')}
+      <!-- الأيام -->
+      <!-- 1 إلى 31 -->
+      %DAYS%
     </select>
     <select name="birthMonth" required>
       <option value="">شهر</option>
-      <!-- أشهر -->
-      ${[...Array(12).keys()].map(i => `<option value="${String(i+1).padStart(2,'0')}">${String(i+1).padStart(2,'0')}</option>`).join('')}
+      <!-- 1 إلى 12 -->
+      %MONTHS%
     </select>
     <select name="birthYear" required>
       <option value="">سنة</option>
-      <!-- سنوات -->
-      ${Array.from({length: 56}, (_, i) => 1950 + i).map(y => `<option value="${y}">${y}</option>`).join('')}
+      <!-- 1950 إلى 2005 -->
+      %YEARS%
     </select>
   </div>
+
   <label>مكان الازدياد *</label>
-  <input type="text" name="birthPlace" required pattern="^[\\u0600-\\u06FF\\s]+$">
+  <input type="text" name="birthPlace" required pattern="[ء-ي\\s]+">
+
   <label>الرتبة *</label>
-  <input type="text" name="rank" required pattern="^[\\u0600-\\u06FF\\s]+$">
+  <input type="text" name="rank" required pattern="[ء-ي\\s]+">
+
   <label>مؤسسة العمل *</label>
-  <input type="text" name="institution" required pattern="^[\\u0600-\\u06FF\\s]+$">
+  <input type="text" name="institution" required pattern="[ء-ي\\s]+">
+
   <label>الوظيفة في المركز *</label>
   <select name="function" required>
     <option value="">-- اختر --</option>
@@ -122,12 +121,16 @@
     <option>عامل دائم</option>
     <option>عامل غير دائم</option>
   </select>
+
   <label>المادة</label>
-  <input type="text" name="subject" pattern="^[\\u0600-\\u06FF\\s]*$">
+  <input type="text" name="subject" pattern="[ء-ي\\s]*">
+
   <label>رقم الحساب البريدي *</label>
-  <input type="text" name="postalAccountNumber" required pattern="^[0-9]+$">
+  <input type="text" name="postalAccountNumber" required pattern="[0-9]+">
+
   <label>المفتاح *</label>
-  <input type="text" name="postalKey" required pattern="^[0-9]+$">
+  <input type="text" name="postalKey" required pattern="[0-9]+">
+
   <button type="submit">إرسال</button>
 </form>
 
@@ -140,44 +143,44 @@
 <script>
   const form = document.getElementById("infoForm");
   const confirmation = document.getElementById("confirmation");
-  let formData = {};
+  let formData = {{}};
 
-  form.addEventListener("submit", function(e) {
+  form.addEventListener("submit", function(e) {{
     e.preventDefault();
     const data = new FormData(form);
     formData = Object.fromEntries(data.entries());
     form.style.display = "none";
     confirmation.style.display = "block";
-  });
+  }});
 
-  function editForm() {
+  function editForm() {{
     confirmation.style.display = "none";
     form.style.display = "block";
-  }
+  }}
 
-  function printForm() {
-    const birthDate = `${formData.birthDay}/${formData.birthMonth}/${formData.birthYear}`;
+  function printForm() {{
+    const birthDate = `${{formData.birthDay}}/${{formData.birthMonth}}/${{formData.birthYear}}`;
     const content = `
       <html dir='rtl'><head><title>طباعة</title><style>
-        body { font-family: Arial; margin: 40px; }
-        table { width: 100%; border-collapse: collapse; }
-        td { border: 1px solid #000; padding: 10px; height: 40px; }
-        td.label { background: #f0f0f0; font-weight: bold; width: 30%; }
+        body {{ font-family: Arial; margin: 40px; }}
+        table {{ width: 100%; border-collapse: collapse; }}
+        td {{ border: 1px solid #000; padding: 10px; }}
+        td.label {{ background: #f0f0f0; font-weight: bold; width: 30%; }}
       </style></head>
       <body>
         <h3 style='text-align:center;'>استمارة معلومات - مركز تصحيح شهادة البكالوريا</h3>
         <table>
-          <tr><td class='label'>اللقب</td><td>${formData.lastName}</td></tr>
-          <tr><td class='label'>الاسم</td><td>${formData.firstName}</td></tr>
-          <tr><td class='label'>اللقب والاسم باللاتينية</td><td>${formData.latinName}</td></tr>
-          <tr><td class='label'>تاريخ الازدياد</td><td>${birthDate}</td></tr>
-          <tr><td class='label'>مكان الازدياد</td><td>${formData.birthPlace}</td></tr>
-          <tr><td class='label'>الرتبة</td><td>${formData.rank}</td></tr>
-          <tr><td class='label'>مؤسسة العمل</td><td>${formData.institution}</td></tr>
-          <tr><td class='label'>الوظيفة في المركز</td><td>${formData.function}</td></tr>
-          <tr><td class='label'>المادة</td><td>${formData.subject || '-'}</td></tr>
-          <tr><td class='label'>رقم الحساب البريدي</td><td>${formData.postalAccountNumber}</td></tr>
-          <tr><td class='label'>المفتاح</td><td>${formData.postalKey}</td></tr>
+          <tr><td class='label'>اللقب</td><td>${{formData.lastName}}</td></tr>
+          <tr><td class='label'>الاسم</td><td>${{formData.firstName}}</td></tr>
+          <tr><td class='label'>اللقب والاسم باللاتينية</td><td>${{formData.latinName}}</td></tr>
+          <tr><td class='label'>تاريخ الازدياد</td><td>${{birthDate}}</td></tr>
+          <tr><td class='label'>مكان الازدياد</td><td>${{formData.birthPlace}}</td></tr>
+          <tr><td class='label'>الرتبة</td><td>${{formData.rank}}</td></tr>
+          <tr><td class='label'>مؤسسة العمل</td><td>${{formData.institution}}</td></tr>
+          <tr><td class='label'>الوظيفة في المركز</td><td>${{formData.function}}</td></tr>
+          <tr><td class='label'>المادة</td><td>${{formData.subject || '-'}}</td></tr>
+          <tr><td class='label'>رقم الحساب البريدي</td><td>${{formData.postalAccountNumber}}</td></tr>
+          <tr><td class='label'>المفتاح</td><td>${{formData.postalKey}}</td></tr>
         </table>
       </body></html>
     `;
@@ -185,7 +188,7 @@
     win.document.write(content);
     win.document.close();
     win.print();
-  }
+  }}
 </script>
 
 </body>
