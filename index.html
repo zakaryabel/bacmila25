@@ -103,8 +103,8 @@
     const formData = new FormData(form);
     const values = Object.fromEntries(formData.entries());
     lastSubmittedData = values;
+const scriptURL = 'https://script.google.com/macros/s/AKfycby3TK7SDmpj5Pqbn-JFG88web4hJRjXhbR5IQWQAr6yUO8G9-W2xTZt7_pObp-KkH4/exec';
 
-    https://script.google.com/macros/s/AKfycby3TK7SDmpj5Pqbn-JFG88web4hJRjXhbR5IQWQAr6yUO8G9-W2xTZt7_pObp-KkH4/exec // ← ضع رابط Google Apps Script هنا
 
     try {
       const response = await fetch(scriptURL, {
