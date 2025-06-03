@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>استمارة معلومات PDF</title>
+  <style>
+    body { font-family: Arial; max-width: 600px; margin: auto; padding: 20px; direction: rtl; }
+    label, input, select, button { display: block; width: 100%; margin: 10px 0; font-size: 1.1em; }
+    button { background: #4CAF50; color: white; border: none; padding: 12px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h2>استمارة معلومات خاصة بموظفي مركز البكالوريا - 2025</h2>
+  <form id="infoForm">
+    <label>اللقب *</label>
+    <input name="lastName" required />
+    <label>الاسم *</label>
+    <input name="firstName" required />
+    <label>اللقب والاسم باللاتينية</label>
+    <input name="latinName" />
+    <label>تاريخ الازدياد - يوم *</label>
+    <input name="birthDay" type="number" min="1" max="31" required />
+    <label>تاريخ الازدياد - شهر *</label>
+    <input name="birthMonth" type="number" min="1" max="12" required />
+    <label>تاريخ الازدياد - سنة *</label>
+    <input name="birthYear" type="number" min="1950" max="2005" required />
+    <label>مكان الازدياد *</label>
+    <input name="birthPlace" required />
+    <label>الرتبة *</label>
+    <input name="rank" required />
+    <label>مؤسسة العمل *</label>
+    <input name="institution" required />
+    <label>الوظيفة في المركز *</label>
+    <input name="function" required />
+    <label>المادة</label>
+    <input name="subject" />
+    <label>رقم الحساب البريدي *</label>
+    <input name="postalAccountNumber" type="number" required />
+    <label>المفتاح *</label>
+    <input name="postalKey" type="number" required />
+    <button type="submit">تحميل ملف PDF</button>
+  </form>
+
+  <script>
+    document.getElementById('infoForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(e.target).entries());
+
+      const response = await fetch('http://127.0.0.1:5000/generate_pdf', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        window.open(url);
+      } else {
+        alert('حدث خطأ أثناء إنشاء الملف');
+      }
+    });
+  </script>
+</body>
+</html>
